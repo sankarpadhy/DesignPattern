@@ -1,9 +1,15 @@
 package behavioral.observer;
 
 /**
- * Observer interface that defines the method to be called when the subject's state changes
- * This interface is implemented by all concrete observers
+ * Observer interface for the Weather Station example
+ * Part of the Observer Pattern implementation where observers receive updates about weather changes
+ * Observers implement this interface to receive temperature and humidity updates
  */
 public interface WeatherObserver {
-    void update(float temperature, float humidity, float pressure);
+    /**
+     * Called by the subject (WeatherStation) when weather conditions change
+     * @param temperature The current temperature reading
+     * @param humidity The current humidity reading
+     */
+    void update(float temperature, float humidity);
 }

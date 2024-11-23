@@ -1,18 +1,26 @@
 package behavioral.chainofresponsibility;
 
 /**
- * Abstract handler in the chain of responsibility pattern
+ * Abstract base class for the Chain of Responsibility pattern
+ * Implements the basic chain functionality and defines the logging contract
+ * Each concrete logger will handle specific log levels and pass others to the next handler
  */
 public abstract class Logger {
     protected LogLevel level;
     protected Logger nextLogger;
 
+    /**
+     * Constructs a logger with a specific log level
+     * @param level The minimum level this logger handles
+     */
     public Logger(LogLevel level) {
         this.level = level;
     }
 
     /**
-     * Set the next logger in the chain
+     * Sets the next logger in the chain
+     * @param nextLogger The logger to handle messages this logger doesn't process
+     * @return The next logger in the chain
      */
     public Logger setNext(Logger nextLogger) {
         this.nextLogger = nextLogger;
@@ -20,19 +28,24 @@ public abstract class Logger {
     }
 
     /**
-     * Handle the message if appropriate level, otherwise pass to next handler
+     * Handles the message if appropriate for this logger's level,
+     * otherwise passes it to the next logger in the chain
+     * @param message The message to be logged
+     * @param level The level at which to log the message
      */
-    public void log(LogLevel messageLevel, String message) {
-        if (messageLevel.getLevel() >= level.getLevel()) {
-            writeMessage(message);
+    public void logMessage(String message, LogLevel level) {
+        if (this.level.ordinal() <= level.ordinal()) {
+            write(message);
         }
         if (nextLogger != null) {
-            nextLogger.log(messageLevel, message);
+            nextLogger.logMessage(message, level);
         }
     }
 
     /**
-     * Actual logging implementation - to be defined by concrete loggers
+     * Abstract method to be implemented by concrete loggers
+     * Defines how the actual logging should be performed
+     * @param message The message to be written to the log
      */
-    protected abstract void writeMessage(String message);
+    protected abstract void write(String message);
 }

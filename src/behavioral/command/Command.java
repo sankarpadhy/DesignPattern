@@ -1,15 +1,25 @@
 package behavioral.command;
 
 /**
- * Command interface
- * Defines the contract for all concrete command implementations
+ * Command interface for the Command Pattern
+ * Defines the contract for all concrete commands
  * 
- * The Command pattern encapsulates a request as an object, thereby letting you:
- * 1. Parameterize clients with different requests
- * 2. Queue or log requests
- * 3. Support undoable operations
+ * Key aspects of the Command Pattern demonstrated here:
+ * 1. Encapsulates a request as an object
+ * 2. Parameterizes clients with different requests
+ * 3. Allows for queueing of requests
+ * 4. Supports undoable operations
  */
 public interface Command {
+    /**
+     * Executes the command
+     * Each concrete command will implement its specific behavior
+     */
     void execute();
+    
+    /**
+     * Undoes the command (optional operation)
+     * Restores the state before command execution
+     */
     void undo();
 }

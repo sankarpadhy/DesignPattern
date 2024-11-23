@@ -1,20 +1,29 @@
 package behavioral.observer;
 
 /**
- * Demonstration of the Observer pattern using the Weather Station example
- * Shows how multiple observers can receive updates from a single subject
+ * Demonstration of the Observer Pattern using a Weather Station example
+ * Shows how multiple displays can observe and react to changes in weather conditions
+ * 
+ * Key aspects demonstrated:
+ * 1. One-to-many dependency between objects
+ * 2. Automatic notification of state changes
+ * 3. Loose coupling between subject and observers
  */
 public class ObserverDemo {
+    /**
+     * Main method to demonstrate the Observer pattern
+     * Creates a weather station and multiple displays to show weather updates
+     */
     public static void main(String[] args) {
-        // Create the WeatherStation (Subject)
+        // Create the subject (WeatherStation)
         WeatherStation weatherStation = new WeatherStation();
 
-        // Create different displays (Observers)
+        // Create observers (displays)
         WeatherDisplay mainDisplay = new WeatherDisplay("Main Display");
         WeatherDisplay mobileDisplay = new WeatherDisplay("Mobile App");
         WeatherDisplay webDisplay = new WeatherDisplay("Web Interface");
 
-        // Register observers with the weather station
+        // Register observers with the subject
         weatherStation.registerObserver(mainDisplay);
         weatherStation.registerObserver(mobileDisplay);
         weatherStation.registerObserver(webDisplay);

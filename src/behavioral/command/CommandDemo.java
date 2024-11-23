@@ -1,55 +1,64 @@
 package behavioral.command;
 
 /**
- * Demonstration of the Command pattern
- * Shows how to use commands with undo functionality in a smart home context
+ * Demo class for Command Pattern
  */
 public class CommandDemo {
     public static void main(String[] args) {
-        // Create the receivers (lights)
+        // Create receivers
         Light livingRoomLight = new Light("Living Room");
-        Light kitchenLight = new Light("Kitchen");
-
-        // Create the commands
-        Command livingRoomLightOn = new LightOnCommand(livingRoomLight);
-        Command livingRoomLightOff = new LightOffCommand(livingRoomLight);
-        Command kitchenLightOn = new LightOnCommand(kitchenLight);
-        Command kitchenLightOff = new LightOffCommand(kitchenLight);
-
-        // Create the invoker (remote control)
+        Fan livingRoomFan = new Fan("Living Room");
+        Stereo livingRoomStereo = new Stereo("Living Room");
+        
+        // Create commands
+        Command lightOn = new LightOnCommand(livingRoomLight);
+        Command lightOff = new LightOffCommand(livingRoomLight);
+        Command fanHigh = new FanHighCommand(livingRoomFan);
+        Command fanOff = new FanOffCommand(livingRoomFan);
+        Command stereoOn = new StereoOnWithCDCommand(livingRoomStereo);
+        Command stereoOff = new StereoOffCommand(livingRoomStereo);
+        
+        // Create remote control
         RemoteControl remote = new RemoteControl();
-
-        // Set up the remote control slots
-        remote.setCommand(0, livingRoomLightOn, livingRoomLightOff);
-        remote.setCommand(1, kitchenLightOn, kitchenLightOff);
-
-        // Show remote control setup
-        System.out.println("Remote Control Setup:");
+        
+        // Set up commands
+        remote.setCommand(0, lightOn, lightOff);
+        remote.setCommand(1, fanHigh, fanOff);
+        remote.setCommand(2, stereoOn, stereoOff);
+        
         System.out.println(remote);
-
-        // Test the remote control
-        System.out.println("Testing Remote Control:");
-        System.out.println("------------------------");
-
-        System.out.println("\nTurning on Living Room Light:");
-        remote.onButtonPressed(0);
-
-        System.out.println("\nTurning on Kitchen Light:");
-        remote.onButtonPressed(1);
-
-        System.out.println("\nTurning off Kitchen Light:");
-        remote.offButtonPressed(1);
-
-        System.out.println("\nUndo last operation (Kitchen Light Off):");
-        remote.undoButtonPressed();
-
-        System.out.println("\nUndo previous operation (Kitchen Light On):");
-        remote.undoButtonPressed();
-
-        System.out.println("\nUndo previous operation (Living Room Light On):");
-        remote.undoButtonPressed();
-
-        System.out.println("\nTrying to undo with no more commands:");
-        remote.undoButtonPressed();
+        
+        // Test light
+        remote.onButtonWasPushed(0);
+        System.out.println(remote);
+        
+        // Test fan
+        remote.onButtonWasPushed(1);
+        System.out.println(remote);
+        
+        // Turn off fan
+        remote.offButtonWasPushed(1);
+        System.out.println(remote);
+        
+        // Test undo
+        remote.undoButtonWasPushed();
+        System.out.println(remote);
+        
+        // Test stereo
+        remote.onButtonWasPushed(2);
+        System.out.println(remote);
+        
+        // Turn off stereo
+        remote.offButtonWasPushed(2);
+        System.out.println(remote);
+        
+        // Test party mode
+        Command[] partyOn = { lightOn, fanHigh, stereoOn };
+        Command partyMacro = new MacroCommand(partyOn);
+        remote.setCommand(3, partyMacro, null);
+        
+        System.out.println("--- Pushing Party Mode On---");
+        remote.onButtonWasPushed(3);
+        System.out.println(remote);
     }
 }

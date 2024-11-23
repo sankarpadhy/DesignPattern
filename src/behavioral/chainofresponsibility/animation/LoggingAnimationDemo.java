@@ -6,7 +6,13 @@ import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Interactive demonstration of the Chain of Responsibility pattern
+ * Provides a visual representation of how log messages are handled
+ * through different logging levels in the chain
+ */
 public class LoggingAnimationDemo extends JFrame {
+    private static final long serialVersionUID = 1L;
     private JTextArea logArea;
     private JPanel chainPanel;
     private JPanel diagramPanel;
@@ -16,7 +22,11 @@ public class LoggingAnimationDemo extends JFrame {
     private List<String> levels;
     private int messageIndex = 0;
 
+    /**
+     * Initializes the demo window with animation and control panels
+     */
     public LoggingAnimationDemo() {
+        // Set up the window title and default close operation
         setTitle("Chain of Responsibility Pattern Animation");
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -60,6 +70,9 @@ public class LoggingAnimationDemo extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Builds the animation panel with chain visualization and log area
+     */
     private JPanel buildAnimationPanel() {
         JPanel animationPanel = new JPanel(new BorderLayout());
         animationPanel.setBackground(Color.WHITE);
@@ -87,6 +100,9 @@ public class LoggingAnimationDemo extends JFrame {
         return animationPanel;
     }
 
+    /**
+     * Builds the diagram panel with class diagram
+     */
     private JPanel buildDiagramPanel() {
         JPanel diagramPanel = new JPanel() {
             @Override
@@ -99,6 +115,9 @@ public class LoggingAnimationDemo extends JFrame {
         return diagramPanel;
     }
 
+    /**
+     * Initializes the list of log messages and their corresponding levels
+     */
     private void initializeMessages() {
         messages = new ArrayList<>();
         levels = new ArrayList<>();
@@ -119,6 +138,9 @@ public class LoggingAnimationDemo extends JFrame {
         levels.add("ERROR");
     }
 
+    /**
+     * Draws the chain of responsibility visualization
+     */
     private void drawChain(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -171,6 +193,9 @@ public class LoggingAnimationDemo extends JFrame {
         }
     }
 
+    /**
+     * Draws the class diagram
+     */
     private void drawClassDiagram(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -229,6 +254,9 @@ public class LoggingAnimationDemo extends JFrame {
         g2d.drawString("decides either to process it or to pass it to the next handler in the chain.", 50, 90);
     }
 
+    /**
+     * Draws a class box with attributes and methods
+     */
     private void drawClass(Graphics2D g2d, String name, String[] attributes, String[] methods,
                          int x, int y, int width, int height) {
         // Draw class box
@@ -257,6 +285,9 @@ public class LoggingAnimationDemo extends JFrame {
         }
     }
 
+    /**
+     * Draws an enum box with values
+     */
     private void drawEnum(Graphics2D g2d, String name, String[] values,
                         int x, int y, int width, int height) {
         g2d.setFont(new Font("Arial", Font.ITALIC, 12));
@@ -281,6 +312,9 @@ public class LoggingAnimationDemo extends JFrame {
         }
     }
 
+    /**
+     * Draws an arrow between two points
+     */
     private void drawArrow(Graphics2D g2d, int x1, int y1, int x2, int y2) {
         g2d.drawLine(x1, y1, x2, y2);
         
@@ -297,6 +331,9 @@ public class LoggingAnimationDemo extends JFrame {
         g2d.drawLine(x2, y2, x4, y4);
     }
 
+    /**
+     * Draws an association arrow between two points
+     */
     private void drawAssociationArrow(Graphics2D g2d, int x1, int y1, int x2, int y2) {
         g2d.drawLine(x1, y1, x2, y2);
         
@@ -325,6 +362,9 @@ public class LoggingAnimationDemo extends JFrame {
         g2d.drawPolygon(xPoints, yPoints, 4);
     }
 
+    /**
+     * Draws a self-association arrow
+     */
     private void drawSelfAssociation(Graphics2D g2d, int x1, int y1, int x2, int y2) {
         int curveHeight = 30;
         int arrowSize = 10;
@@ -340,6 +380,9 @@ public class LoggingAnimationDemo extends JFrame {
         g2d.drawLine(arrowX, arrowY, arrowX - arrowSize, arrowY + arrowSize);
     }
 
+    /**
+     * Processes the next log message
+     */
     private void processNextMessage() {
         if (messageIndex < messages.size()) {
             String message = messages.get(messageIndex);
@@ -357,6 +400,9 @@ public class LoggingAnimationDemo extends JFrame {
         }
     }
 
+    /**
+     * Updates the animation
+     */
     private void updateAnimation() {
         if (currentStep < 3) {
             String level = levels.get(messageIndex - 1);
@@ -382,6 +428,9 @@ public class LoggingAnimationDemo extends JFrame {
         chainPanel.repaint();
     }
 
+    /**
+     * Resets the animation
+     */
     private void resetAnimation() {
         messageIndex = 0;
         currentStep = 0;
@@ -390,6 +439,9 @@ public class LoggingAnimationDemo extends JFrame {
         chainPanel.repaint();
     }
 
+    /**
+     * Main method to run the demo
+     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
             new LoggingAnimationDemo().setVisible(true);

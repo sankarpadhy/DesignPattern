@@ -3,67 +3,90 @@ package behavioral.command;
 import java.util.Stack;
 
 /**
- * Invoker class
- * Holds and executes commands, maintains command history for undo operations
+ * Invoker class in the Command Pattern
+ * Represents a remote control that can execute commands
  * 
- * This class demonstrates key features of the Command pattern:
- * 1. Command queueing and history
- * 2. Undo functionality
- * 3. Decoupling of command execution from command implementation
+ * Key aspects demonstrated:
+ * 1. Holds commands but knows nothing about their implementation
+ * 2. Maintains command history for undo operations
+ * 3. Can execute commands and track their history
  */
 public class RemoteControl {
     private Command[] onCommands;
     private Command[] offCommands;
-    private Stack<Command> commandHistory;
-    private static final int SLOTS = 7;
+    private Command undoCommand;
+    private static final int NUM_COMMANDS = 7;
 
+    /**
+     * Creates a new remote control with a fixed number of slots
+     * Initializes all slots with a no-operation command
+     */
     public RemoteControl() {
-        onCommands = new Command[SLOTS];
-        offCommands = new Command[SLOTS];
-        commandHistory = new Stack<>();
+        onCommands = new Command[NUM_COMMANDS];
+        offCommands = new Command[NUM_COMMANDS];
 
-        // Initialize with no-op commands
         Command noCommand = new NoCommand();
-        for (int i = 0; i < SLOTS; i++) {
+        for (int i = 0; i < NUM_COMMANDS; i++) {
             onCommands[i] = noCommand;
             offCommands[i] = noCommand;
         }
+        undoCommand = noCommand;
     }
 
+    /**
+     * Sets a command pair for a specific slot
+     * @param slot The slot number (0-6)
+     * @param onCommand The command to execute when turned on
+     * @param offCommand The command to execute when turned off
+     */
     public void setCommand(int slot, Command onCommand, Command offCommand) {
         onCommands[slot] = onCommand;
         offCommands[slot] = offCommand;
     }
 
-    public void onButtonPressed(int slot) {
+    /**
+     * Executes the "on" command for a specific slot
+     * @param slot The slot number (0-6)
+     */
+    public void onButtonWasPushed(int slot) {
         onCommands[slot].execute();
-        commandHistory.push(onCommands[slot]);
+        undoCommand = onCommands[slot];
     }
 
-    public void offButtonPressed(int slot) {
+    /**
+     * Executes the "off" command for a specific slot
+     * @param slot The slot number (0-6)
+     */
+    public void offButtonWasPushed(int slot) {
         offCommands[slot].execute();
-        commandHistory.push(offCommands[slot]);
+        undoCommand = offCommands[slot];
     }
 
-    public void undoButtonPressed() {
-        if (!commandHistory.isEmpty()) {
-            Command command = commandHistory.pop();
-            command.undo();
-        } else {
-            System.out.println("No commands to undo");
-        }
+    /**
+     * Undoes the last command that was executed
+     * Uses the command history stack
+     */
+    public void undoButtonWasPushed() {
+        undoCommand.undo();
     }
 
+    /**
+     * Returns a string representation of all commands
+     * @return A formatted string showing all command slots
+     */
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("\n------ Remote Control -------\n");
-        for (int i = 0; i < SLOTS; i++) {
-            sb.append("[slot ").append(i).append("] ")
-              .append(onCommands[i].getClass().getSimpleName()).append("    ")
-              .append(offCommands[i].getClass().getSimpleName()).append("\n");
+        StringBuilder stringBuff = new StringBuilder();
+        stringBuff.append("\n------ Remote Control -------\n");
+        for (int i = 0; i < onCommands.length; i++) {
+            stringBuff.append("[slot ").append(i).append("] ")
+                     .append(onCommands[i].getClass().getSimpleName())
+                     .append("    ")
+                     .append(offCommands[i].getClass().getSimpleName())
+                     .append("\n");
         }
-        return sb.toString();
+        stringBuff.append("[undo] ").append(undoCommand.getClass().getSimpleName());
+        return stringBuff.toString();
     }
 }
 

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="DesignPatterns" default="run-demo" basedir=".">
+    <property name="src.dir" value="src"/>
+    <property name="test.dir" value="test"/>
+    <property name="build.dir" value="build"/>
+    <property name="classes.dir" value="${build.dir}/classes"/>
+    <property name="test.classes.dir" value="${build.dir}/test-classes"/>
+    <property name="lib.dir" value="lib"/>
+
+    <!-- Clean build directories -->
+    <target name="clean">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <!-- Create build directories -->
+    <target name="init">
+        <mkdir dir="${classes.dir}"/>
+        <mkdir dir="${test.classes.dir}"/>
+    </target>
+
+    <!-- Compile main source code -->
+    <target name="compile" depends="init">
+        <javac srcdir="${src.dir}" destdir="${classes.dir}" debug="true" includeantruntime="false">
+            <classpath>
+                <fileset dir="${lib.dir}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Compile test source code -->
+    <target name="compile-tests" depends="compile">
+        <javac srcdir="${test.dir}" destdir="${test.classes.dir}" debug="true" includeantruntime="false">
+            <classpath>
+                <pathelement location="${classes.dir}"/>
+                <fileset dir="${lib.dir}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </javac>
+    </target>
+
+    <!-- Run JUnit tests -->
+    <target name="test" depends="compile-tests">
+        <junit printsummary="yes" haltonfailure="yes">
+            <classpath>
+                <pathelement location="${classes.dir}"/>
+                <pathelement location="${test.classes.dir}"/>
+                <fileset dir="${lib.dir}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+            <formatter type="plain"/>
+            <batchtest fork="yes">
+                <fileset dir="${test.dir}">
+                    <include name="**/*Test.java"/>
+                </fileset>
+            </batchtest>
+        </junit>
+    </target>
+
+    <!-- Run Command Pattern Demo -->
+    <target name="run-demo" depends="compile">
+        <java classname="behavioral.command.animation.CommandPatternDemo" fork="true">
+            <classpath>
+                <pathelement location="${classes.dir}"/>
+                <fileset dir="${lib.dir}">
+                    <include name="**/*.jar"/>
+                </fileset>
+            </classpath>
+        </java>
+    </target>
+</project>

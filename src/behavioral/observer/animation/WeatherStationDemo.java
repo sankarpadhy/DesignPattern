@@ -7,7 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Interactive demonstration of the Observer Pattern using a Weather Station
+ * Provides both an animated visualization of the pattern in action and a UML class diagram
+ * Shows real-time updates between the subject (WeatherStation) and multiple observers
+ */
 public class WeatherStationDemo extends JFrame {
+    private static final long serialVersionUID = 1L;
     private JPanel weatherStation;
     private List<ObserverPanel> observers;
     private Timer weatherTimer;
@@ -17,6 +23,9 @@ public class WeatherStationDemo extends JFrame {
     private double pressure = 1013.0;
     private Random random = new Random();
 
+    /**
+     * Represents an observer panel for animation purposes
+     */
     private class ObserverPanel extends JPanel {
         private String name;
         private Color color;
@@ -83,6 +92,9 @@ public class WeatherStationDemo extends JFrame {
         }
     }
 
+    /**
+     * Initializes the demo window with animation and diagram panels
+     */
     public WeatherStationDemo() {
         setTitle("Weather Station Observer Pattern Animation");
         setSize(800, 600);
@@ -140,6 +152,10 @@ public class WeatherStationDemo extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Builds the animation panel
+     * @return the animation panel
+     */
     private JPanel buildAnimationPanel() {
         JPanel animationPanel = new JPanel() {
             @Override
@@ -152,6 +168,10 @@ public class WeatherStationDemo extends JFrame {
         return animationPanel;
     }
 
+    /**
+     * Builds the diagram panel
+     * @return the diagram panel
+     */
     private JPanel buildDiagramPanel() {
         JPanel diagramPanel = new JPanel() {
             @Override
@@ -164,6 +184,10 @@ public class WeatherStationDemo extends JFrame {
         return diagramPanel;
     }
 
+    /**
+     * Draws the weather station and observers
+     * @param g the graphics context
+     */
     private void drawWeatherStation(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -182,6 +206,10 @@ public class WeatherStationDemo extends JFrame {
         }
     }
 
+    /**
+     * Draws the UML class diagram
+     * @param g the graphics context
+     */
     private void drawClassDiagram(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -245,6 +273,17 @@ public class WeatherStationDemo extends JFrame {
         g2d.drawString("object changes state, all its dependents are notified and updated automatically.", 50, 90);
     }
 
+    /**
+     * Draws a class box
+     * @param g2d the graphics context
+     * @param name the class name
+     * @param attributes the class attributes
+     * @param methods the class methods
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @param width the width
+     * @param height the height
+     */
     private void drawClass(Graphics2D g2d, String name, String[] attributes, String[] methods,
                          int x, int y, int width, int height) {
         // Draw class box
@@ -273,6 +312,16 @@ public class WeatherStationDemo extends JFrame {
         }
     }
 
+    /**
+     * Draws an interface box
+     * @param g2d the graphics context
+     * @param name the interface name
+     * @param methods the interface methods
+     * @param x the x-coordinate
+     * @param y the y-coordinate
+     * @param width the width
+     * @param height the height
+     */
     private void drawInterface(Graphics2D g2d, String name, String[] methods,
                              int x, int y, int width, int height) {
         g2d.setFont(new Font("Arial", Font.ITALIC, 12));
@@ -280,6 +329,14 @@ public class WeatherStationDemo extends JFrame {
         drawClass(g2d, name, new String[]{}, methods, x, y, width, height);
     }
 
+    /**
+     * Draws an arrow
+     * @param g2d the graphics context
+     * @param x1 the x-coordinate of the starting point
+     * @param y1 the y-coordinate of the starting point
+     * @param x2 the x-coordinate of the ending point
+     * @param y2 the y-coordinate of the ending point
+     */
     private void drawArrow(Graphics2D g2d, int x1, int y1, int x2, int y2) {
         g2d.drawLine(x1, y1, x2, y2);
         
@@ -296,6 +353,14 @@ public class WeatherStationDemo extends JFrame {
         g2d.drawLine(x2, y2, x4, y4);
     }
 
+    /**
+     * Draws a dependency arrow
+     * @param g2d the graphics context
+     * @param x1 the x-coordinate of the starting point
+     * @param y1 the y-coordinate of the starting point
+     * @param x2 the x-coordinate of the ending point
+     * @param y2 the y-coordinate of the ending point
+     */
     private void drawDependencyArrow(Graphics2D g2d, int x1, int y1, int x2, int y2) {
         float[] dash = {5.0f};
         g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 
@@ -304,6 +369,9 @@ public class WeatherStationDemo extends JFrame {
         g2d.setStroke(new BasicStroke(1.0f));
     }
 
+    /**
+     * Triggers an update of the weather values and observers
+     */
     private void triggerUpdate() {
         // Update weather values
         temperature += random.nextDouble() * 2 - 1;  // -1 to +1
@@ -318,6 +386,9 @@ public class WeatherStationDemo extends JFrame {
         repaint();
     }
 
+    /**
+     * Updates the observers
+     */
     private void updateObservers() {
         boolean stillAnimating = false;
         for (ObserverPanel observer : observers) {

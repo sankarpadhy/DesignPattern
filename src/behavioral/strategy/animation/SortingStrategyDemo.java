@@ -7,6 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Interactive demonstration of the Strategy Pattern using sorting algorithms
+ * Shows how different sorting strategies can be swapped at runtime
+ * Provides both animated visualization and UML class diagram
+ */
 public class SortingStrategyDemo extends JFrame {
     private List<Integer> numbers;
     private Timer sortingTimer;
@@ -20,6 +25,9 @@ public class SortingStrategyDemo extends JFrame {
     private JButton sortButton;
     private JButton resetButton;
 
+    /**
+     * Initializes the demo window with animation and control panels
+     */
     public SortingStrategyDemo() {
         setTitle("Sorting Strategy Pattern Animation");
         setSize(800, 600);
@@ -76,6 +84,10 @@ public class SortingStrategyDemo extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    /**
+     * Builds the animation panel for the sorting visualization
+     * @return the animation panel
+     */
     private JPanel buildAnimationPanel() {
         JPanel animationPanel = new JPanel() {
             @Override
@@ -88,6 +100,10 @@ public class SortingStrategyDemo extends JFrame {
         return animationPanel;
     }
 
+    /**
+     * Builds the diagram panel for the UML class diagram
+     * @return the diagram panel
+     */
     private JPanel buildDiagramPanel() {
         JPanel diagramPanel = new JPanel() {
             @Override
@@ -100,6 +116,9 @@ public class SortingStrategyDemo extends JFrame {
         return diagramPanel;
     }
 
+    /**
+     * Initializes the numbers array with random values
+     */
     private void initializeNumbers() {
         numbers.clear();
         Random rand = new Random();
@@ -111,6 +130,10 @@ public class SortingStrategyDemo extends JFrame {
         currentIndex = 0;
     }
 
+    /**
+     * Draws the bars for the sorting visualization
+     * @param g the graphics context
+     */
     private void drawBars(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -142,6 +165,10 @@ public class SortingStrategyDemo extends JFrame {
         }
     }
 
+    /**
+     * Draws the UML class diagram for the Strategy Pattern
+     * @param g the graphics context
+     */
     private void drawClassDiagram(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -197,6 +224,17 @@ public class SortingStrategyDemo extends JFrame {
         g2d.drawString("clients that use it.", 50, 110);
     }
 
+    /**
+     * Draws a class box with attributes and methods
+     * @param g2d the graphics context
+     * @param name the class name
+     * @param attributes the class attributes
+     * @param methods the class methods
+     * @param x the x-coordinate of the class box
+     * @param y the y-coordinate of the class box
+     * @param width the width of the class box
+     * @param height the height of the class box
+     */
     private void drawClass(Graphics2D g2d, String name, String[] attributes, String[] methods,
                          int x, int y, int width, int height) {
         // Draw class box
@@ -225,6 +263,16 @@ public class SortingStrategyDemo extends JFrame {
         }
     }
 
+    /**
+     * Draws an interface box with methods
+     * @param g2d the graphics context
+     * @param name the interface name
+     * @param methods the interface methods
+     * @param x the x-coordinate of the interface box
+     * @param y the y-coordinate of the interface box
+     * @param width the width of the interface box
+     * @param height the height of the interface box
+     */
     private void drawInterface(Graphics2D g2d, String name, String[] methods,
                              int x, int y, int width, int height) {
         g2d.setFont(new Font("Arial", Font.ITALIC, 12));
@@ -232,6 +280,14 @@ public class SortingStrategyDemo extends JFrame {
         drawClass(g2d, name, new String[]{}, methods, x, y, width, height);
     }
 
+    /**
+     * Draws an arrow between two points
+     * @param g2d the graphics context
+     * @param x1 the x-coordinate of the starting point
+     * @param y1 the y-coordinate of the starting point
+     * @param x2 the x-coordinate of the ending point
+     * @param y2 the y-coordinate of the ending point
+     */
     private void drawArrow(Graphics2D g2d, int x1, int y1, int x2, int y2) {
         g2d.drawLine(x1, y1, x2, y2);
         
@@ -248,6 +304,14 @@ public class SortingStrategyDemo extends JFrame {
         g2d.drawLine(x2, y2, x4, y4);
     }
 
+    /**
+     * Draws an association arrow between two points
+     * @param g2d the graphics context
+     * @param x1 the x-coordinate of the starting point
+     * @param y1 the y-coordinate of the starting point
+     * @param x2 the x-coordinate of the ending point
+     * @param y2 the y-coordinate of the ending point
+     */
     private void drawAssociationArrow(Graphics2D g2d, int x1, int y1, int x2, int y2) {
         // Draw diamond
         int diamondSize = 10;
@@ -260,6 +324,9 @@ public class SortingStrategyDemo extends JFrame {
         g2d.drawLine(x1, y1 - diamondSize*2, x2, y2);
     }
 
+    /**
+     * Starts the sorting animation
+     */
     private void startSorting() {
         if (!isSorting) {
             isSorting = true;
@@ -272,6 +339,9 @@ public class SortingStrategyDemo extends JFrame {
         }
     }
 
+    /**
+     * Performs a single step of the sorting algorithm
+     */
     private void performSortStep() {
         highlightIndices.clear();
         
@@ -290,6 +360,9 @@ public class SortingStrategyDemo extends JFrame {
         repaint();
     }
 
+    /**
+     * Performs a single step of the bubble sort algorithm
+     */
     private void bubbleSortStep() {
         if (currentIndex < numbers.size() - 1 - currentStep) {
             highlightIndices.add(currentIndex);
@@ -314,6 +387,9 @@ public class SortingStrategyDemo extends JFrame {
         }
     }
 
+    /**
+     * Performs a single step of the selection sort algorithm
+     */
     private void selectionSortStep() {
         if (currentStep < numbers.size() - 1) {
             highlightIndices.add(currentStep);
@@ -348,6 +424,9 @@ public class SortingStrategyDemo extends JFrame {
         }
     }
 
+    /**
+     * Performs a single step of the insertion sort algorithm
+     */
     private void insertionSortStep() {
         if (currentStep < numbers.size()) {
             highlightIndices.add(currentStep);
@@ -369,6 +448,9 @@ public class SortingStrategyDemo extends JFrame {
         }
     }
 
+    /**
+     * Finishes the sorting animation
+     */
     private void finishSorting() {
         sortingTimer.stop();
         isSorting = false;
@@ -380,6 +462,9 @@ public class SortingStrategyDemo extends JFrame {
         repaint();
     }
 
+    /**
+     * Resets the numbers array and stops the sorting animation
+     */
     private void resetArray() {
         if (!isSorting) {
             initializeNumbers();
