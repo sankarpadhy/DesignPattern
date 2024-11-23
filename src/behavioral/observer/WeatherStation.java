@@ -1,5 +1,6 @@
 package behavioral.observer;
 
+// Java core imports
 import java.util.ArrayList;
 import java.util.List;
 

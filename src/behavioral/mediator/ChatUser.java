@@ -1,11 +1,15 @@
 package behavioral.mediator;
 
 /**
- * Concrete implementation of User
+ * Concrete colleague class that represents a chat user
  */
-public class ChatUser extends User {
+public class ChatUser implements User {
+    private ChatMediator mediator;
+    private String name;
+
     public ChatUser(ChatMediator mediator, String name) {
-        super(mediator, name);
+        this.mediator = mediator;
+        this.name = name;
     }
 
     @Override
@@ -17,5 +21,13 @@ public class ChatUser extends User {
     @Override
     public void receive(String message) {
         System.out.println(name + " receives: " + message);
+    }
+
+    /**
+     * Gets the name of this user
+     * @return The user's name
+     */
+    public String getName() {
+        return name;
     }
 }

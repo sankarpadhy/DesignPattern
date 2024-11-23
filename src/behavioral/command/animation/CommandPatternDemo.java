@@ -1,12 +1,17 @@
 package behavioral.command.animation;
 
+// Project imports
 import behavioral.command.*;
-import javax.swing.*;
+
+// Java core imports
 import java.awt.*;
 import java.awt.event.*;
 import java.awt.geom.*;
 import java.util.ArrayList;
 import java.util.List;
+
+// Swing imports
+import javax.swing.*;
 
 /**
  * Interactive demonstration of the Command Pattern

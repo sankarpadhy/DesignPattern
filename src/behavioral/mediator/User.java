@@ -1,17 +1,18 @@
 package behavioral.mediator;
 
 /**
- * Abstract class for users participating in the chat
+ * Abstract colleague interface for chat users
  */
-public abstract class User {
-    protected ChatMediator mediator;
-    protected String name;
+public interface User {
+    /**
+     * Sends a message to other users through the mediator
+     * @param message The message to send
+     */
+    void send(String message);
 
-    public User(ChatMediator mediator, String name) {
-        this.mediator = mediator;
-        this.name = name;
-    }
-
-    public abstract void send(String message);
-    public abstract void receive(String message);
+    /**
+     * Receives a message from another user through the mediator
+     * @param message The message received
+     */
+    void receive(String message);
 }
